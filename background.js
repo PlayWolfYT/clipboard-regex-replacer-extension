@@ -27,12 +27,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         chrome.storage.sync.get(['rules'], function (result) {
             sendResponse({ rules: result.rules || defaultRules });
         });
-        return true;
+        return true; // Required for async response
     }
-});
 
-// Listen for clipboard changes
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.type === 'clipboardChanged') {
         chrome.storage.sync.get(['rules'], function (result) {
             let text = request.text;
