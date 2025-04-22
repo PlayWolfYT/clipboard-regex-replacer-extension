@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function () {
         [patternInput, replacementInput].forEach(input => {
             input.addEventListener('input', function () {
                 clearTimeout(timeout);
-                timeout = setTimeout(saveRules, 500);
+                timeout = setTimeout(saveRules, 1000);
             });
         });
 
@@ -79,6 +79,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
-        chrome.storage.sync.set({ rules: rules });
+        chrome.storage.sync.set({ rules: rules }, function () {
+            const successMessage = document.getElementById('success-message');
+            successMessage.style.display = 'block';
+            successMessage.classList.add('show');
+
+            setTimeout(() => {
+                successMessage.classList.remove('show');
+                setTimeout(() => {
+                    successMessage.style.display = 'none';
+                }, 300);
+            }, 2000);
+        });
     }
 });
